@@ -1,4 +1,6 @@
-package de.jeha.batch_api;
+package de.jeha.batch_api.util;
+
+import de.jeha.batch_api.BatchApiJAXBContextHolder;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;

@@ -1,6 +1,7 @@
 package de.jeha.batch_api;
 
 import de.jeha.batch_api.generated.model.Batch;
+import de.jeha.batch_api.util.UnmarshallingHelper;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
