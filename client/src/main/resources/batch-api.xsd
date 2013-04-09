@@ -1,0 +1,51 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="batch" type="batchDTO"/>
+
+  <xs:element name="operation" type="operationDTO"/>
+
+  <xs:complexType name="batchDTO">
+    <xs:sequence>
+      <xs:element name="operations" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="operation" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="operationDTO">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" minOccurs="0"/>
+      <xs:element name="method" type="xs:string"/>
+      <xs:element name="url" type="xs:string"/>
+      <xs:element name="headers" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="header" type="header" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="body" type="xs:string" minOccurs="0"/>
+      <xs:element name="statusLine" type="statusLine" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="header">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="statusLine">
+    <xs:sequence>
+      <xs:element name="statusCode" type="xs:int"/>
+      <xs:element name="reasonPhrase" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
