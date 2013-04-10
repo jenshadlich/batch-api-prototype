@@ -1,6 +1,5 @@
 package de.jeha.batch_api;
 
-
 import org.restlet.Component;
 import org.restlet.ext.jaxrs.InstantiateException;
 import org.restlet.ext.jaxrs.JaxRsApplication;
