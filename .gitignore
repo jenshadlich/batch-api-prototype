@@ -1,0 +1,8 @@
+/client/target
+/webapp-core/target
+/webapp-core/batch-api-prototype.webapp-core.iml
+/client/batch-api-prototype.client.iml
+/webapp-jersey/target
+/webapp-jersey/batch-api-prototype.webapp-jersey.iml
+/webapp-restlet2/target
+/webapp-restlet2/batch-api-prototype.webapp-restlet2.iml
