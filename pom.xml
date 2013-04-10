@@ -11,11 +11,15 @@
         <module>client</module>
         <module>webapp-core</module>
         <module>webapp-jersey</module>
+        <module>webapp-restlet2</module>
     </modules>
 
     <properties>
         <slf4j.version>1.6.1</slf4j.version>
         <junit.version>4.8.2</junit.version>
+        <org.apache.httpcomponents.version>4.0.1</org.apache.httpcomponents.version>
+        <commons-io.version>2.4</commons-io.version>
+        <commons-lang3.version>3.1</commons-lang3.version>
     </properties>
 
     <dependencyManagement>
@@ -29,6 +33,26 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-jdk14</artifactId>
                 <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${org.apache.httpcomponents.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>${org.apache.httpcomponents.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
