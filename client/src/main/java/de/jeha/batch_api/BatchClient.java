@@ -60,8 +60,10 @@ public class BatchClient {
         if (response.getStatusCode() == 200) {
             for (Operation operation : response.getResponse().getOperations().getOperations()) {
                 Map<String, String> headerMap = new HashMap<String, String>();
-                for (Header header : operation.getHeaders().getHeaders()) {
-                    headerMap.put(header.getName(), header.getValue());
+                if (operation.getHeaders() != null && operation.getHeaders().getHeaders() != null) {
+                    for (Header header : operation.getHeaders().getHeaders()) {
+                        headerMap.put(header.getName(), header.getValue());
+                    }
                 }
 
                 LOG.info("\n" +
