@@ -51,6 +51,11 @@
             <version>${restlet.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.restlet.jee</groupId>
+            <artifactId>org.restlet.ext.wadl</artifactId>
+            <version>${restlet.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
