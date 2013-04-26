@@ -33,6 +33,14 @@ public class BatchClient {
         {
             Operation operation = new Operation();
             operation.setId(UUID.randomUUID().toString());
+            operation.setMethod("FOOBAR");
+            operation.setUrl("http://api.spreadshirt.net/api/v1/serverTime");
+            batch.getOperations().getOperations().add(operation);
+        }
+
+        {
+            Operation operation = new Operation();
+            operation.setId(UUID.randomUUID().toString());
             operation.setMethod("GET");
             operation.setUrl("http://api.spreadshirt.net/api/v1/currencies/1?mediaType=json");
             batch.getOperations().getOperations().add(operation);
