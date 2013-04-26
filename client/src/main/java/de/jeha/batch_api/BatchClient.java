@@ -75,11 +75,13 @@ public class BatchClient {
                 }
 
                 LOG.info("\n" +
+                        "Executed     = {}\n" +
                         "Code         = {}\n" +
                         "Reason       = {}\n" +
                         "Content-Type = {}\n" +
                         "Body         = {}",
                         new Object[]{
+                                operation.isExecuted(),
                                 operation.getStatusLine().getStatusCode(),
                                 operation.getStatusLine().getReasonPhrase(),
                                 headerMap.get("Content-Type"),
