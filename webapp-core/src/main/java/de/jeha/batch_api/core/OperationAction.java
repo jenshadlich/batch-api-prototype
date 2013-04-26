@@ -31,6 +31,7 @@ class OperationAction {
         operationResult.setId(operationInput.getId());
         operationResult.setMethod(operationInput.getMethod());
         operationResult.setUrl(operationInput.getUrl());
+        operationResult.setExecuted(Boolean.FALSE);
 
         final String method = operationInput.getMethod().toUpperCase();
         final String url = operationInput.getUrl();
@@ -52,6 +53,7 @@ class OperationAction {
                 operationResult.setBody(e.toString());
                 operationResult.setStatusLine(new OperationDTO.StatusLine(500, "Internal Server Error"));
             }
+            operationResult.setExecuted(Boolean.TRUE);
 
             if (response != null) {
                 LOG.info(response.getStatusLine().toString());
