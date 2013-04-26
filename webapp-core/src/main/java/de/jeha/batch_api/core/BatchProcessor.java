@@ -23,14 +23,16 @@ public class BatchProcessor {
 
     private static final Logger LOG = LoggerFactory.getLogger(BatchProcessor.class);
 
-    public static BatchDTO process(BatchDTO batch) throws IOException {
+    public static BatchDTO process(BatchDTO batch) {
         LOG.info("Submit batch request: {}", batch);
 
         BatchDTO batchResponse = new BatchDTO();
 
         for (OperationDTO operationInput : batch.getOperations()) {
-            OperationDTO operation = new OperationDTO();
-            operation.setId(operationInput.getId());
+            OperationDTO operationResult = new OperationDTO();
+            operationResult.setId(operationInput.getId());
+            operationResult.setMethod(operationInput.getMethod());
+            operationResult.setUrl(operationInput.getUrl());
 
             final String method = operationInput.getMethod().toUpperCase();
             if ("GET".equals(method)) {
@@ -42,30 +44,44 @@ public class BatchProcessor {
                 }
 
                 HttpClient client = new DefaultHttpClient();
-                HttpResponse response = client.execute(get);
-
-                LOG.info(response.getStatusLine().toString());
-
-                final int statusCode = response.getStatusLine().getStatusCode();
-                final String reasonPhrase = response.getStatusLine().getReasonPhrase();
-                operation.setStatusLine(new OperationDTO.StatusLine(statusCode, reasonPhrase));
-
-                if (response.getEntity() != null) {
-                    String responseBody = IOUtils.toString(response.getEntity().getContent(), Charset.forName("UTF-8"));
-                    LOG.info(responseBody);
-                    operation.setBody(responseBody);
+                HttpResponse response = null;
+                try {
+                    response = client.execute(get);
+                } catch (IOException e) {
+                    operationResult.setBody(e.toString());
+                    operationResult.setStatusLine(new OperationDTO.StatusLine(500, "Internal Server Error"));
                 }
-                if (response.getAllHeaders() != null) {
-                    for (Header header : response.getAllHeaders()) {
-                        operation.getHeader().add(new OperationDTO.Header(header.getName(), header.getValue()));
+
+                if (response != null) {
+                    LOG.info(response.getStatusLine().toString());
+
+                    final int statusCode = response.getStatusLine().getStatusCode();
+                    final String reasonPhrase = response.getStatusLine().getReasonPhrase();
+                    operationResult.setStatusLine(new OperationDTO.StatusLine(statusCode, reasonPhrase));
+
+                    if (response.getEntity() != null) {
+                        String responseBody = null;
+                        try {
+                            responseBody = IOUtils.toString(response.getEntity().getContent(), Charset.forName("UTF-8"));
+                        } catch (IOException e) {
+                            responseBody = e.getMessage();
+                            operationResult.setStatusLine(new OperationDTO.StatusLine(500, "Internal Server Error"));
+                        }
+                        LOG.info(responseBody);
+                        operationResult.setBody(responseBody);
+                    }
+                    if (response.getAllHeaders() != null) {
+                        for (Header header : response.getAllHeaders()) {
+                            operationResult.getHeader().add(new OperationDTO.Header(header.getName(), header.getValue()));
+                        }
                     }
                 }
             } else {
-                operation.setStatusLine(new OperationDTO.StatusLine(400, "Bad request"));
-                operation.setBody(String.format("Method %s not supported!", method));
+                operationResult.setStatusLine(new OperationDTO.StatusLine(400, "Bad request"));
+                operationResult.setBody(String.format("Method %s not supported!", method));
             }
 
-            batchResponse.getOperations().add(operation);
+            batchResponse.getOperations().add(operationResult);
         }
 
         return batchResponse;
