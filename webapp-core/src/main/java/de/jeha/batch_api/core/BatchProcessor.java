@@ -116,6 +116,9 @@ public class BatchProcessor {
         if ("DELETE".equals(method)) {
             return new HttpDelete(url);
         }
+        if ("OPTIONS".equals(method)) {
+            return new HttpOptions(url);
+        }
         return null;
     }
 }
