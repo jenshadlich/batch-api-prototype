@@ -23,6 +23,8 @@ public class OperationDTO {
     @XmlElement
     private String body;
     @XmlElement
+    private Boolean executed;
+    @XmlElement
     private StatusLine statusLine;
 
     public OperationDTO() {
@@ -69,6 +71,14 @@ public class OperationDTO {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public Boolean getExecuted() {
+        return executed;
+    }
+
+    public void setExecuted(Boolean executed) {
+        this.executed = executed;
     }
 
     public StatusLine getStatusLine() {
