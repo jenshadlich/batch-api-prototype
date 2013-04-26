@@ -16,7 +16,7 @@ import java.nio.charset.Charset;
 /**
  * @author jns
  */
-public class OperationAction {
+class OperationAction {
 
     private static final Logger LOG = LoggerFactory.getLogger(OperationAction.class);
 

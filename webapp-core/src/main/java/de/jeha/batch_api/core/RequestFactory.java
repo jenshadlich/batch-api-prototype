@@ -8,7 +8,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * @author jns
  */
-public class RequestFactory {
+class RequestFactory {
 
     public static HttpUriRequest create(String url, String method, String body) {
         if ("GET".equals(method)) {
