@@ -6,13 +6,14 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.*;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 /**
@@ -35,18 +36,21 @@ public class BatchProcessor {
             operationResult.setUrl(operationInput.getUrl());
 
             final String method = operationInput.getMethod().toUpperCase();
-            if ("GET".equals(method)) {
-                HttpUriRequest get = new HttpGet(operationInput.getUrl());
+            final String url = operationInput.getUrl();
+            final String body = operationInput.getBody();
+
+            HttpUriRequest request = getRequest(url, method, body);
+            if (request != null) {
                 if (operationInput.getHeader() != null) {
                     for (OperationDTO.Header header : operationInput.getHeader()) {
-                        get.addHeader(header.getName(), header.getValue());
+                        request.addHeader(header.getName(), header.getValue());
                     }
                 }
 
                 HttpClient client = new DefaultHttpClient();
                 HttpResponse response = null;
                 try {
-                    response = client.execute(get);
+                    response = client.execute(request);
                 } catch (IOException e) {
                     operationResult.setBody(e.toString());
                     operationResult.setStatusLine(new OperationDTO.StatusLine(500, "Internal Server Error"));
@@ -85,5 +89,33 @@ public class BatchProcessor {
         }
 
         return batchResponse;
+    }
+
+    private static HttpUriRequest getRequest(String url, String method, String body) {
+        if ("GET".equals(method)) {
+            return new HttpGet(url);
+        }
+        if ("POST".equals(method)) {
+            HttpPost post = new HttpPost(url);
+            try {
+                post.setEntity(new StringEntity(body, "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+            return post;
+        }
+        if ("PUT".equals(method)) {
+            HttpPut put = new HttpPut(url);
+            try {
+                put.setEntity(new StringEntity(body, "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
+            return put;
+        }
+        if ("DELETE".equals(method)) {
+            return new HttpDelete(url);
+        }
+        return null;
     }
 }
