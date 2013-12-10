@@ -1,10 +1,12 @@
 RESTful Batch-API Prototype
 ===========================
 
-build:
+Build:
+```
 mvn clean install
-
-run the server:
+```
+Run the server:
+```
 cd webapp-jersey
 mvn jetty:run
-
+```
