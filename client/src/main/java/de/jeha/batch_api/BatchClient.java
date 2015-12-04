@@ -81,7 +81,7 @@ public class BatchClient {
                         "Content-Type = {}\n" +
                         "Body         = {}",
                         new Object[]{
-                                operation.isExecuted(),
+                                operation.getExecuted(),
                                 operation.getStatusLine().getStatusCode(),
                                 operation.getStatusLine().getReasonPhrase(),
                                 headerMap.get("Content-Type"),
